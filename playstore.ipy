@@ -1,0 +1,988 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[4]:
+
+
+
+img=PhotoImage('C:\Users\ASUS\OneDrive\Desktop\su - Copy.png')
+img
+
+
+# In[4]:
+
+
+pip install pyimage2
+
+
+# In[ ]:
+
+
+from tkinter import *
+from tkinter import messagebox
+root=Tk()
+root.title('login')
+root.geometry('925x500+300+200')
+root.configure(bg='#fff')
+root.resizable(False,False)
+def signin():
+    username=user.get()
+    password=code.get()
+    
+    if username=='admin' and password=='1234':
+        print('satya prakash technology')
+
+img=PhotoImage(file="C:/Users/ASUS/OneDrive/Desktop/su.png")
+Label(root,image=img,bg='white').place(x=50,y=50)
+
+
+frame=Frame(root,width=350,height=350,bg='white')
+frame.place(x=480,y=70)
+heading=Label(frame,text='sign in',fg='#57a1f8',bg='white',font=('Microsoft YaHei UI Light',23,'bold'))
+heading.place(x=100,y=5)
+################----------------------------
+def on_enter(e):
+    user.delete(0,'end')
+def on_leave(e):
+    name=user.get()
+    if name=='':
+        user.insert(0,'Username')
+user=Entry(frame,width=25,fg='black',border=0,bg='white',font=('Microsoft YaHei UI Light',11))
+user.place(x=30,y=80)
+user.insert(0,'Username')
+user.bind('<FocusIn>',on_enter)
+user.bind('<FocusOut>',on_leave)
+
+Frame(frame,width=295,height=2,bg='black').place(x=25,y=107)
+################----------------------------
+def on_enter(e):
+    code.delete(0,'end')
+def on_leave(e):
+    name=code.get()
+    if name=='':
+        code.insert(0,'Password')
+code=Entry(frame,width=25,fg='black',border=2,bg='white',font=('Microsoft YaHei UI Light',11))
+code.place(x=30,y=80)
+code.insert(1,'Password')
+code.bind('<FocusIn>',on_enter)
+code.bind('<FocusOut>',on_leave)
+
+Frame(frame,width=295,height=2,bg='black').place(x=25,y=177)
+##########-------------
+''''Button(frame,width=39,pady=7,text='Sign in',bg='#57a1f8',fg='white',border=0,command=signin).place(x=35,y=204)
+label=Label(frame,text="Don't have an account?",fg='black',bg='white',font=('Microsoft YaHei UI Light',9))
+label.place(x=75,y=270)
+sign_up= Button(frame,width=6,text='signup',border=0,bg='white',cursor='hand2',fg='#57a1f8')
+sign_up.place(x=215,y=270)'''
+
+
+root.mainloop()
+
+
+# In[3]:
+
+
+import tkinter as tk
+
+class TicTacToe(tk.Frame):
+    def __init__(self, master=None):
+        super().__init__(master)
+        self.master = master
+        self.grid()
+        self.create_widgets()
+
+    def create_widgets(self):
+        self.title_label = tk.Label(self, text="Tic Tac Toe")
+        self.title_label.grid(row=0, column=0, columnspan=3)
+
+        self.button_00 = tk.Button(self, text="", height=5, width=10)
+        self.button_00.grid(row=1, column=0)
+
+        # Create other buttons for the board
+
+        self.quit_button = tk.Button(self, text="Quit", command=self.master.destroy)
+        self.quit_button.grid(row=4, column=0, columnspan=3)
+
+root = tk.Tk()
+app = TicTacToe(master=root)
+app.mainloop()
+
+
+# In[4]:
+
+
+import tkinter as tk
+
+class TicTacToe:
+    def __init__(self, master):
+        self.master = master
+        self.master.title("Tic Tac Toe")
+
+        # create the game board
+        self.board = [[" " for _ in range(3)] for _ in range(3)]
+
+        # create the buttons for the game board
+        self.buttons = [[tk.Button(self.master, text=" ", font=("Helvetica", 20), width=4, height=2, command=lambda row=row, col=col: self.button_click(row, col)) for col in range(3)] for row in range(3)]
+
+        # place the buttons on the screen
+        for row in range(3):
+            for col in range(3):
+                self.buttons[row][col].grid(row=row, column=col)
+
+        # create a label to display the current player's turn
+        self.turn_label = tk.Label(self.master, text="Player 1's turn", font=("Helvetica", 16))
+        self.turn_label.grid(row=3, column=0, columnspan=3)
+
+        # create a button to reset the game
+        self.reset_button = tk.Button(self.master, text="Reset", font=("Helvetica", 16), command=self.reset)
+        self.reset_button.grid(row=4, column=0, columnspan=3)
+
+        # initialize variables for the game state
+        self.current_player = "X"
+        self.game_over = False
+
+    def button_click(self, row, col):
+        # check if the button has already been clicked or if the game is over
+        if self.buttons[row][col]["text"] != " " or self.game_over:
+            return
+
+        # update the button text with the current player's symbol
+        self.buttons[row][col]["text"] = self.current_player
+
+        # update the game board with the current player's symbol
+        self.board[row][col] = self.current_player
+
+        # check if the game is over
+        if self.check_win() or self.check_tie():
+            self.game_over = True
+        else:
+            self.switch_player()
+
+    def check_win(self):
+        # check for a win on the rows
+        for row in range(3):
+            if self.board[row][0] == self.board[row][1] == self.board[row][2] != " ":
+                self.turn_label["text"] = f"{self.current_player} wins!"
+                return True
+
+        # check for a win on the columns
+        for col in range(3):
+            if self.board[0][col] == self.board[1][col] == self.board[2][col] != " ":
+                self.turn_label["text"] = f"{self.current_player} wins!"
+                return True
+
+        # check for a win on the diagonals
+        if self.board[0][0] == self.board[1][1] == self.board[2][2] != " ":
+            self.turn_label["text"] = f"{self.current_player} wins!"
+            return True
+
+        if self.board[0][2] == self.board[1][1] == self.board[2][0] != " ":
+            self.turn_label["text"] = f"{self.current_player} wins!"
+            return True
+
+        # no win
+        return False
+
+    def check_tie(self):
+        for row in range(3):
+            for col in range(3):
+                if self.board[row][col] == " ":
+                    # there is an empty space, so the game is not a tie
+                   
+
+
+# In[ ]:
+
+
+
+
+
+# In[1]:
+
+
+def func7():
+    q1 = """What is the maximum possible length of an identifier?
+    
+        a.16
+        b.32
+        c.64
+        d.None of these above"""
+    
+    
+    q2 = '''Who developed the Python language?
+    
+        a. Zim Den
+        b. Guido van Rossum
+        c. Niene Stom
+        d. Wick van Rossum'''
+        
+    q3 =''' Which one of the following is the correct extension of the Python file?
+    
+       a. .py
+       b. .python
+       c .p
+       d. None of these'''
+    
+        
+    q4 = '''In which year was the Python 3.0 version developed?
+    
+        2008
+        2000
+        2010
+        2005'''
+    
+    q5 =  '''What do we use to define a block of code in Python language?
+    
+        Key
+        Brackets
+        Indentation
+        None of these'''
+    
+    q6 = ''' Which character is used in Python to make a single line comment?
+    
+        /
+        //
+        #
+        !'''
+    
+    q7 = ''' Which of the following statements is correct regarding the object-oriented programming concept in Python?
+    
+        Classes are real-world entities while objects are not real
+        Objects are real-world entities while classes are not real
+        Both objects and classes are real-world entities
+        All of the above'''
+    
+    
+    q8 =  ''' What is the method inside the class in python language?
+    
+        Object
+        Function
+        Attribute
+        Argument'''
+    
+    q9 = ''' Why does the name of local variables start with an underscore discouraged?
+    
+        To identify the variable
+        It confuses the interpreter
+        It indicates a private variable of a class
+        None of these'''
+    
+    q10 =  '''Which of the following is not a keyword in Python language?
+    
+        val
+        raise
+        try
+        with'''
+    
+    questions = {q1:"a",q2:"a",q3:"a",q4:"a",q5:"a",q6:"a",q7:"a",q8:"a",q9:"a",q10:"a"}
+    
+    name = input("Enter ur name:")
+    print("Hello",name,"welcome to quiz world")
+    score = 0
+    for i in questions:
+        print(i)
+        flag = input("Do you want to skip this qs(yes/no)")
+        if flag == "yes":
+            continue
+        ans = input("Enter the answer(/a/b/c/d):")
+        if ans == questions[i]:
+            print("correct answer, you got one point.\n")
+            score = score+1
+        else:
+            print("wrong answer, you lost one point.\n")
+            score = score - 1
+        flag1 = input("Do you want to quit?(yes/no):")
+        if flag1 == "yes":
+            break
+            
+    print("final score is:",score)        
+            
+    
+    
+    
+    
+
+
+# In[2]:
+
+
+get_ipython().system('pip install lxml')
+
+
+# In[3]:
+
+
+def func8():
+    import pandas as pd
+    url = "https://en.wikipedia.org/wiki/Wikipedia:Fundraising_statistics"
+    # data = pd.read_html(url)
+    # print(data[0].info())
+    data1 = pd.read_html(url)
+    print(list(data1[0]["Year"]))
+    print(list(data1[0]["Source"]))
+
+
+# In[4]:
+
+
+import random
+def func5():
+    ladder = {3:56, 4:14, 8:30, 21:42, 28:76, 50:67, 71:92, 80:99}
+    snake = {32:10, 34:6, 48:26, 62:18, 88:24, 95:56, 97:78}
+    
+    pos1 = 0
+    pos2 = 0
+    
+    def move(pos):
+        dice = random.randint(1,6)
+        print(f"dice:{dice}")
+        pos = pos + dice
+        if pos in snake:
+            print("Bitten by snake")
+            pos = snake[pos]
+            print(f"position : {pos}")
+          
+        elif pos in ladder:
+            print("Climbed by ladder")
+            pos = ladder[pos]
+            print(f"position : {pos}")
+            
+        else:
+            print(f"position : {pos}")
+        print("\n")
+        return pos
+    
+    
+    while True:
+        A = input("Player 1 : Hit enter to throw dice  :")
+        pos1 = move(pos1)
+        if pos1>=100:
+            print("Game over!! \n Player 1 wins")
+            break
+        B = input("Player 2 : Hit enter to throw dice  :")
+        pos2 = move(pos2)
+        if pos2>=100:
+            print("Game over!! \n Player 2 wins")
+            break    
+        
+            
+
+
+# 
+
+# In[5]:
+
+
+def func6():
+    def sum(a, b, c ):
+        return a + b + c
+    
+    def printBoard(xState, zState):
+        zero = 'X' if xState[0] else ('O' if zState[0] else 0)
+        one = 'X' if xState[1] else ('O' if zState[1] else 1)
+        two = 'X' if xState[2] else ('O' if zState[2] else 2)
+        three = 'X' if xState[3] else ('O' if zState[3] else 3)
+        four = 'X' if xState[4] else ('O' if zState[4] else 4)
+        five = 'X' if xState[5] else ('O' if zState[5] else 5)
+        six = 'X' if xState[6] else ('O' if zState[6] else 6)
+        seven = 'X' if xState[7] else ('O' if zState[7] else 7)
+        eight = 'X' if xState[8] else ('O' if zState[8] else 8)
+        print(f"{zero} | {one} | {two} ")
+        print(f"--|---|---")
+        print(f"{three} | {four} | {five} ")
+        print(f"--|---|---")
+        print(f"{six} | {seven} | {eight} ") 
+    
+    def checkWin(xState, zState):
+        wins = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]]
+        for win in wins:
+            if(sum(xState[win[0]], xState[win[1]], xState[win[2]]) == 3):
+                print("X Won the match")
+                return 1
+            if(sum(zState[win[0]], zState[win[1]], zState[win[2]]) == 3):
+                print("O Won the match")
+                return 0
+        return -1
+        
+    if __name__ == "__main__":
+        xState = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        zState = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        turn = 1 # 1 for X and 0 for O
+        print("Welcome to Tic Tac Toe")
+        while(True):
+            printBoard(xState, zState)
+            if(turn == 1):
+                print("X's Chance")
+                value = int(input("Please enter a value: "))
+                xState[value] = 1
+            else:
+                print("O's Chance")
+                value = int(input("Please enter a value: "))
+                zState[value] = 1
+            cwin = checkWin(xState, zState)
+            if(cwin != -1):
+                print("Match over")
+                break
+            
+            turn = 1 - turn
+
+
+# In[6]:
+
+
+import random
+
+def func2():
+    user_action = input("Enter a choice (rock, paper, scissors): ")
+    possible_actions = ["rock", "paper", "scissors"]
+    computer_action = random.choice(possible_actions)
+    print(f"\nYou chose {user_action}, computer chose {computer_action}.\n")
+    
+    if user_action == computer_action:
+        print(f"Both players selected {user_action}. It's a tie!")
+    elif user_action == "rock":
+        if computer_action == "scissors":
+            print("Rock smashes scissors! You win!")
+        else:
+            print("Paper covers rock! You lose.")
+    elif user_action == "paper":
+        if computer_action == "rock":
+            print("Paper covers rock! You win!")
+        else:
+            print("Scissors cuts paper! You lose.")
+    elif user_action == "scissors":
+        if computer_action == "paper":
+            print("Scissors cuts paper! You win!")
+        else:
+            print("Rock smashes scissors! You lose.")
+    
+        
+
+import speech_recognition
+
+def record_voice():
+    microphone = speech_recognition.Recognizer()
+    
+    with speech_recognition.Microphone() as 
+# In[1]:
+
+
+get_ipython().system('pip install SpeechRecognition')
+# c:\program files\python39\python.exe -m pip install --upgrade pip
+
+
+# In[6]:
+
+
+get_ipython().system('pip install pyaudio')
+
+
+# In[1]:
+
+
+import speech_recognition
+def func9():
+    def record_voice():
+        microphone = speech_recognition.Recognizer()
+        
+        
+        with speech_recognition.Microphone() as live_phone:
+            microphone.adjust_for_ambient_noise(live_phone)
+            
+            print("trying to hear u: ")
+            
+            audio = microphone.listen(live_phone)
+            try:
+                phrase = microphone.recognize_google(audio, language = 'en')
+                return phrase
+            except speech_recognition.UnknownValueError:
+                return "didn't understand what u said "
+            
+    if __name__ == '__main__':
+        phrase = record_voice()
+        
+        with open('satyasss.txt', 'w') as file:
+            file.write(phrase)
+            
+            print('the last sentence u spoke was saved in you_said_this.txt')
+
+
+# In[10]:
+
+
+def func3():
+    import turtle
+    import random
+    import time
+    
+    delay = 0.1
+    score = 0
+    highestscore = 0
+    
+    
+    bodies = []
+    
+    
+    s = turtle.Screen()
+    s.title("Snake Game")
+    s.bgcolor("gray")
+    s.setup(width = 600, height = 600)
+    
+    
+    head =turtle.Turtle()
+    head.speed(0)
+    head.shape("square")
+    head.color("white")
+    head.fillcolor("blue")
+    head.penup()
+    head.goto(0,0)
+    head.direction="stop"
+    
+    
+    
+    food = turtle.Turtle()
+    food.speed(0)
+    food.shape("square")
+    food.color("yellow")
+    food.fillcolor("green")
+    food.penup()
+    food.ht()
+    food.goto(0,200)
+    food.st()
+    
+    
+    
+    sb=turtle.Turtle()
+    sb.shape("square")
+    sb.fillcolor("black")
+    sb.penup()
+    sb.ht()
+    sb.goto(-250, -250)
+    sb.write("score:0 | Highest score: 0")
+    
+    def moveup():
+        if head.direction!="down":
+            head.direction="up"
+    def movedown():
+        if head.direction!="up":
+            head.direction="down"
+    def moveleft():
+        if head.direction!="right":
+            head.direction="left"
+    def moveright():
+        if head.direction!="left":
+            head.direction="right"
+    def movestop():
+        head.direction="stop"
+        
+    def move():
+        if head.direction=="up":
+            y=head.ycor()
+            head.sety(y+20)
+            
+        if head.direction=="down":
+            y=head.ycor()
+            head.sety(y-20) 
+            
+        if head.direction=="left":
+            x=head.xcor()
+            head.setx(x-20)
+            
+        if head.direction=="right":
+            x=head.xcor()
+            head.setx(x+20)
+            
+            
+    
+    s.listen()
+    s.onkey(moveup,"Up")
+    s.onkey(movedown,"Down")
+    s.onkey(moveleft,"Left")
+    s.onkey(moveright,"Right")
+    s.onkey(movestop,"space")
+    
+    
+    # main loop
+    
+    while True:
+        s.update()
+        if head.xcor()>290:
+            head.setx(-290)
+        if head.xcor()<-290:
+            head.setx(290) 
+        if head.ycor()>290:
+            head.sety(-290)
+        if head.ycor()<-290:
+            head.sety(290)
+            
+            
+    # check collision with food
+    
+    if head.distance(food)<20:
+        x=random.randint(-290,290)
+        y=random.randint(-290,290)
+        food.goto(x,y)
+        
+        
+        body = turtle.Turtle()
+        body.speed(0)
+        body.penup()
+        body.shape("square")
+        body.color("red")
+        body.fillcolor("black")
+        bodies.append(body)
+        
+        
+        score+=0
+        
+        delay-=0.001
+        
+        if score>highestscore:
+            highestscore = score
+        sb.clear()
+        sb.write("Score: {} Highest Score: {}".format(score,highestscore))
+        
+    for index in range(len(bodies)-1,0,-1):
+        x=bodies[index-1].xcor()
+        y=bodies[index-1].ycor()
+        bodies[index].goto(x,y)
+        
+    if len(bodies)>0:
+        x=head.xcor()
+        y=head.ycor()
+        bodies[0].goto(x,y)
+    move()
+    
+    for body in bodies:
+        if body.distance(head)<20:
+            time.sleep(1)
+            head.goto(0,0)
+            head.direction="stop"
+            
+            for body in bodies:
+                body.ht()
+            bodies.clear()
+            
+            score=0
+            delay=0.1
+            
+            sb.clear()
+            sb.write("Score: {} Highest Score: {}".format(score,highestscore))
+        time.sleep(delay)
+    s.mainloop()    
+        
+    
+    
+    
+        
+            
+
+
+# In[ ]:
+
+
+get_ipython().system('pip install tkinter')
+
+
+# In[ ]:
+
+
+import random
+from tkinter import *
+root = Tk()
+
+randx = random.randint(100,1280)
+randy = random.randint(100,800)
+
+root.geometry("990x600+{}+{}".format(randx, randy))
+# bgLabel = Label(root,text)
+heading = Label(root,text = "USER LOGI",font = ('Microsoft Yahei UI Light',23,'bold'))
+heading.place(x=405,y=80)
+root.mainloop()
+
+
+# In[ ]:
+
+
+
+# import re
+
+# ### USERID
+
+# userid = input("Enter userid: ")
+# while True :
+#     if(len(userid)>=11):
+#         if re.search("5",userid[5]):
+#             if re.search("[1]",userid[0]):
+#                 if re.search("[7]",userid[10]):
+#                     print(userid + " is valid")
+#                     break
+                     
+                     
+                       
+#                 else:
+#                     print(f"{userid}  is invalid")
+#                     userid = input("Enter userid: ")
+#                     continue
+            
+#             else: 
+#                 print(f"{userid}  is invalid")
+#                 userid = input("Enter userid: ")
+#                 continue
+#         else:
+#             print(f"{userid}  is invalid")
+#             userid = input("Enter userid: ")
+#             continue
+#     else:
+#         print(f"{userid}  is invalid")
+#         userid = input("Enter userid: ")
+#         continue
+        
+        
+# ### PASSWORD
+
+# passw = input("Enter password: ")
+# while True:
+#     if(len(passw)<=8):
+#         if re.search("\d",passw[3]):
+#             if re.search("[a-z]",passw[6]):
+#                 print(passw + " is valid")
+#                 break
+#             else:
+#                 print(f"{passw}  is invalid")
+#                 passw = input("Enter password: ")
+#                 continue
+            
+#         else: 
+#             print(f"{passw}  is invalid")
+#             passw = input("Enter password: ")
+#             continue
+#     else:
+#         print(f"{passw}  is invalid")
+#         passw = input("Enter password: ")
+#         continue
+    
+# ### DICTIONARY
+        
+
+
+# my_dict = {'1ana45nyap7tra':'66g7hbg6','1anki5tapa7ra':'vgc8frgh'}
+# if userid in my_dict:
+#     print("succesful")
+# else:                                                   ## 1nn8n5ajnk7n:jnn8nnyg
+#     print("Create an account")
+    
+
+# print(my_dict)    
+
+
+# In[ ]:
+
+
+def func10():
+    
+    # Python's built-in module for encoding and decoding JSON data
+    import json
+    # Python's built-in module for opening and reading URLs
+    from urllib.request import urlopen
+    
+    # sample ISBN for testing: 1593276036
+    
+    while True:
+    
+        # create getting started variables
+        api = "https://www.googleapis.com/books/v1/volumes?q=isbn:"
+        isbn = input("Enter 10 digit ISBN: ").strip()
+    
+        # send a request and get a JSON response
+        resp = urlopen(api + isbn)
+        # parse JSON into Python as a dictionary
+        book_data = json.load(resp)
+    
+        # create additional variables for easy querying
+        volume_info = book_data["items"][0]["volumeInfo"]
+        author = volume_info["authors"]
+        # practice with conditional expressions!
+        prettify_author = author if len(author) > 1 else author[0]
+    
+        # display title, author, page count, publication date
+        # fstrings require Python 3.6 or higher
+        # \n adds a new line for easier reading
+        print(f"\nTitle: {volume_info['title']}")
+        print(f"Author: {prettify_author}")
+        print(f"Page Count: {volume_info['pageCount']}")
+        print(f"Publication Date: {volume_info['publishedDate']}")
+        print("\n***\n")
+    
+        # ask user if they would like to enter another isbn
+        user_update = input("Would you like to enter another ISBN? y or n ").lower().strip()
+    
+        if user_update != "y":
+            print("May the Zen of Python be with you. Have a nice day!")
+            break # as the name suggests, the break statement breaks out of the while loop
+
+
+# In[ ]:
+
+
+import re
+
+def all_games():
+    print("1. 2048\n2. ROCK PAPER SCISSOR\n3. SNAKE\n4. BLACKJACK\n5. SNAKE AND LADDER\n6. TIC TAC TOE\n7. QUIZ APPLICATION\n8. SCRAPPER\n9. CONFIDENCE APPLICATION\n10. BOOK APPLICATION")
+    a = int(input("\nENTER THE GAME U WANT TO PLAY(serial no.)\n"))
+    
+    if a==1:
+        func1()
+    elif a==2:
+        func2()
+    elif a==3:
+        func3()
+    elif a==4:
+        func4()
+    elif a==5:
+        func5()
+    elif a==6:
+        func6()
+    elif a==7:
+        func7()
+    elif a==8:
+        func8()
+    elif a==9:
+        func9()
+    elif a==10:
+        func10()
+    else:
+        print("Invalid Choice !!")
+        
+## SIGN UP
+
+def signup():
+    name = input("NAME:")
+    age = int(input("AGE:"))
+    userid = input("Enter userid: ")
+    while True :
+            if(len(userid)>=11):
+                if re.search("5",userid[5]):
+                    if re.search("[1]",userid[0]):
+                        if re.search("[7]",userid[10]):
+                            print(userid + " is valid")
+                            break
+                             
+                        else:
+                            print(f"{userid}  is invalid")
+                            userid = input("Enter userid: ")
+                            continue
+                    
+                    else: 
+                        print(f"{userid}  is invalid")
+                        userid = input("Enter userid: ")
+                        continue
+                else:
+                    print(f"{userid}  is invalid")
+                    userid =input("Enter userid: ")
+                    continue
+            else:
+                print(f"{userid}  is invalid")
+                userid = input("Enter userid: ")
+                continue
+        
+        
+        
+    passw = input("Enter password: ")
+    while True:
+        if(len(passw)<=8):
+            if re.search("\d",passw[3]):
+                if re.search("[a-z]",passw[6]):
+                    print(passw + " is valid")
+                    print("Please Sign in:")
+                    my_dict[userid] = passw
+                    signin()
+                    
+                    break
+                else:
+                    print(f"{passw}  is invalid")
+                    passw = input("Enter password: ")
+                    continue
+                
+            else: 
+                print(f"{passw}  is invalid")
+                passw = input("Enter password: ")
+            continue
+        else:
+            print(f"{passw}  is invalid")
+            passw = input("Enter password: ")
+            continue
+    
+    
+        
+
+##  SIGN IN
+
+def signin():
+    userid = input("Enter userid: ")
+    passw = input("Enter password: ")
+    while True:
+        if (userid in my_dict and my_dict[userid] == passw):
+            all_games()
+            break    
+        else:
+            print("Incorrect userid or password")
+            userid = input("Enter userid: ")
+            passw = input("Enter password: ")
+            continue
+        
+        
+        
+             
+my_dict = {'1ana45nyap7tra':'66g7hbg6','1anki5tapa7ra':'vgc8frgh'}
+
+
+print("WELCOME TO NIMBLETECH PLAYSTORE")
+a = int(input("Do you want to Sign in(1) or Sign Up(2) ??\nPlease enter 1 or 2:"))
+
+if a==1:
+    userid = input("Enter userid: ")
+    passw = input("Enter password: ")
+else:
+    signup()
+    
+    if (userid in my_dict and my_dict[userid] == passw):
+        all_games()
+
+    else:
+        print("\nAccount does not exist\nPlease create one\n\n")
+        signup()
+        
+      
+    
+            
+            
+    
+    
+    
+    
+
+
+# In[ ]:
+
+
+print("\nENTER THE GAME U WANT TO PLAY(serial no.)")
+
+
+# In[ ]:
+
+
+def fu():
+    dic["abc"]="jh"
+    
+    
+dic = {}
+fu()
+print(dic)
+
+
+# In[ ]:
+
+
+
+
